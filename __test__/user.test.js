@@ -40,7 +40,7 @@ describe('POST /users/register', () => {
     expect(res.statusCode).toBe(400);
   });
 
-  it('Should error if there are missing datas', () => {
+  describe('Should error if there are missing datas', () => {
     it('No email', async () => {
       delete userData.email;
       const res = await request(app).post('/users/register');
