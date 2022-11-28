@@ -5,6 +5,7 @@ describe('POST /users/register', () => {
   let userData = {
     email: undefined,
     full_name: undefined,
+    username: undefined,
     password: undefined,
     profile_image_url: undefined,
     age: undefined,
@@ -14,6 +15,7 @@ describe('POST /users/register', () => {
   beforeEach(() => {
     userData.email = 'mail@test.com';
     userData.full_name = 'mail bin mail';
+    userData.username = 'mail';
     userData.password = '12345678';
     userData.profile_image_url = 'image.test.com';
     userData.age = 21;
