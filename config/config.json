@@ -18,14 +18,16 @@
     "password": "postgres",
     "database": "MyGramTest",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "test_rio": {
     "username": "postgres",
     "password": "1234567",
     "database": "MyGramTest",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "username": "postgres",
