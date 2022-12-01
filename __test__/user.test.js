@@ -361,7 +361,7 @@ describe('DELETE /users/:userId', () => {
       .delete('/users/' + userId)
       .set({ token });
     expect(res.statusCode).toBe(200);
-    expect(typeof body).toBe('object');
+    expect(typeof res.body).toBe('object');
     expect(res.body).toHaveProperty('message');
     const message = res.body.message;
     expect(typeof message).toBe('string');

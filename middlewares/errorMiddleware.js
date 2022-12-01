@@ -16,6 +16,10 @@ const errorMiddleware = (error, req, res, next) => {
       code = 400;
       message = `Fail to create ${error.table}. Data doesn't have any relation`
       break;
+    case 'JsonWebTokenError':
+      code = 401;
+      message = 'Invalid Token'
+      break;
     case 'PageNotFound':
       code = 404;
       message = '404 Page Not Found';
