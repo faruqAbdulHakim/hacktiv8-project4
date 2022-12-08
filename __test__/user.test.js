@@ -368,23 +368,28 @@ describe('DELETE /users/:userId', () => {
     expect(message).toBe('Your account has been successfully deleted');
   });
 
-  // TODO: expect -2
   describe('Should error', () => {
     it('if not send token', async () => {
       const res = await request(app).delete('/users/' + userId);
       expect(res.statusCode).toBe(401);
+      expect(typeof res.body).toBe('object');
+      expect(res.body).toHaveProperty('message');
     });
     it('if send invalid token', async () => {
       const res = await request(app)
         .delete('/users/' + userId)
         .set({ token: 'randomstring' });
       expect(res.statusCode).toBe(401);
+      expect(typeof res.body).toBe('object');
+      expect(res.body).toHaveProperty('message');
     });
     it('if delete other user account', async () => {
       const res = await request(app)
         .delete('/users/' + (userId + 1))
         .set({ token });
       expect(res.statusCode).toBe(403);
+      expect(typeof res.body).toBe('object');
+      expect(res.body).toHaveProperty('message');
     });
   });
 });
