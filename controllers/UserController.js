@@ -47,7 +47,7 @@ const UserController = {
       if (!user) {
         return res.status(400).json({ message: 'Email tidak ditemukan.' });
       }
-      if (!bcryptHelper.comparePassword(password, user.password)) {
+      if (!bcryptHelper.comparePassword(password || '', user.password)) {
         return res.status(400).json({ message: 'Password salah.' });
       }
       const token = jwtHelper.sign({ id: user.id });
