@@ -1,5 +1,5 @@
 const commentsRouter = require('express').Router();
-const authMiddleware = require('./../middlewares/authMiddleware');
+const authMiddleware = require('./../middlewares/auth');
 const CommentController = require('./../controllers/CommentController');
 
 commentsRouter.use(authMiddleware);
