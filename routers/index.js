@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const userRouter = require('./userRouter');
 const socialMediaRouter = require('./socialMediaRouter');
+const commentsRouter = require('./commentsRouter');
 const errorMiddleware = require('./../middlewares/errorMiddleware');
 
 router.get('/', (req, res) => {
@@ -8,6 +9,7 @@ router.get('/', (req, res) => {
 });
 router.use('/users', userRouter);
 router.use('/socialmedias', socialMediaRouter);
+router.use('/comments', commentsRouter);
 
 router.use(errorMiddleware);
 

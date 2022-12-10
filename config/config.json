@@ -9,7 +9,7 @@
   "development_rio": {
     "username": "postgres",
     "password": "1234567",
-    "database": "MyGramTest",
+    "database": "MyGramDev",
     "host": "localhost",
     "dialect": "postgres"
   },
