@@ -47,15 +47,15 @@ describe('POST /users/register', () => {
       expect(typeof res.body).toBe('object');
       expect(res.body).toHaveProperty('user');
       const user = res.body.user;
-      expect(Object.keys(user)).toEqual(
-        expect.arrayContaining([
+      expect(Object.keys(user).sort()).toEqual(
+        [
           'email',
           'full_name',
           'username',
           'profile_image_url',
           'age',
           'phone_number',
-        ])
+        ].sort()
       );
       delete userData.password;
       expect(user).toEqual(userData);
@@ -241,15 +241,15 @@ describe('PUT /users/:userId', () => {
       expect(typeof res.body).toBe('object');
       expect(res.body).toHaveProperty('user');
       const user = res.body.user;
-      expect(Object.keys(user)).toEqual(
-        expect.arrayContaining([
+      expect(Object.keys(user).sort()).toEqual(
+        [
           'email',
           'full_name',
           'username',
           'profile_image_url',
           'age',
           'phone_number',
-        ])
+        ].sort()
       );
       expect(user).toEqual(userData);
     });
