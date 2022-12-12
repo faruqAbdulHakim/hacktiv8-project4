@@ -138,7 +138,7 @@ describe('POST /comments', () => {
 describe('GET /comments', () => {
   const url = '/comments';
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await queryInterface.bulkInsert('Comments', [
       {
         comment: 'ini komen [bulkinsert]',
@@ -164,6 +164,7 @@ describe('GET /comments', () => {
       expect(Array.isArray(comments)).toBeTruthy();
       if (comments.length > 0) {
         const comment = comments[0];
+        expect(typeof comment).toBe('object');
         expect(Object.keys(comment).sort()).toEqual(
           [
             'id',
@@ -175,6 +176,14 @@ describe('GET /comments', () => {
             'Photo',
             'User',
           ].sort()
+        );
+        expect(typeof comment.Photo).toBe('object');
+        expect(Object.keys(comment.Photo).sort()).toEqual(
+          ['id', 'title', 'caption', 'poster_image_url'].sort()
+        );
+        expect(typeof comment.User).toBe('object');
+        expect(Object.keys(comment.User).sort()).toEqual(
+          ['id', 'username', 'profile_image_url', 'phone_number'].sort()
         );
       }
     });
@@ -201,7 +210,7 @@ describe('PUT /comments/:commentId', () => {
   let url = '/comments/0';
   let commentId = 0;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const comments = await queryInterface.bulkInsert(
       'Comments',
       [
@@ -268,6 +277,65 @@ describe('PUT /comments/:commentId', () => {
 
 // TODO: will added soon
 describe('DELETE /comments/:commentId', () => {
-  describe('Should success', () => {});
-  describe('Should error', () => {});
+  let url = '/comments/0';
+  let commentId = 0;
+
+  beforeEach(async () => {
+    const comments = await queryInterface.bulkInsert(
+      'Comments',
+      [
+        {
+          comment: 'ini komen [bulkinsert]',
+          PhotoId: photoId,
+          UserId: userId,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {
+        returning: ['id'],
+      }
+    );
+    commentId = comments[0].id;
+    url = '/comments/' + commentId;
+  });
+
+  afterAll(async () => {
+    await queryInterface.bulkDelete('Comments', {}, null);
+  });
+
+  describe('Should success', () => {
+    it('if send request correctly', async () => {
+      const res = await request(app).delete(url).set({ token });
+      expect(res.status).toBe(200);
+      expect(typeof res.body).toBe('object');
+      expect(res.body).toHaveProperty('message');
+      const message = res.body.message;
+      expect(typeof message).toBe('string');
+      expect(message).toBe('Your comment has been successfully deleted');
+    });
+  });
+
+  describe('Should error', () => {
+    it('if not send token', async () => {
+      const res = await request(app).delete(url);
+      expect(res.statusCode).toBe(401);
+      expect(typeof res.body).toBe('object');
+      expect(res.body).toHaveProperty('message');
+    });
+    it('if send invalid token', async () => {
+      const res = await request(app).delete(url).set({ token: 'randomstring' });
+      expect(res.statusCode).toBe(401);
+      expect(typeof res.body).toBe('object');
+      expect(res.body).toHaveProperty('message');
+    });
+    it("if delete social media that doesn't exist", async () => {
+      const res = await request(app)
+        .delete('/comments/' + (userId + 1))
+        .set({ token });
+      expect(res.statusCode).toBe(404);
+      expect(typeof res.body).toBe('object');
+      expect(res.body).toHaveProperty('message');
+    });
+  });
 });
