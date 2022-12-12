@@ -63,15 +63,15 @@ describe('POST /socialmedias', () => {
       expect(typeof res.body).toBe('object');
       expect(res.body).toHaveProperty('social_media');
       const socialmedia = res.body.social_media;
-      expect(Object.keys(socialmedia)).toEqual(
-        expect.arrayContaining([
+      expect(Object.keys(socialmedia).sort()).toEqual(
+        [
           'id',
           'name',
           'social_media_url',
           'UserId',
           'createdAt',
           'updatedAt',
-        ])
+        ].sort()
       );
       expect(socialmedia.name).toBe(data.name);
       expect(socialmedia.social_media_url).toBe(data.social_media_url);
@@ -145,8 +145,8 @@ describe('GET /socialmedias', () => {
       if (socialMedias.length > 0) {
         const socialMedia = socialMedias[0];
         expect(typeof socialMedia).toBe('object');
-        expect(Object.keys(socialMedia)).toEqual(
-          expect.arrayContaining([
+        expect(Object.keys(socialMedia).sort()).toEqual(
+          [
             'id',
             'name',
             'social_media_url',
@@ -154,11 +154,11 @@ describe('GET /socialmedias', () => {
             'createdAt',
             'updatedAt',
             'User',
-          ])
+          ].sort()
         );
         expect(typeof socialMedia.User).toBe('object');
-        expect(Object.keys(socialMedia.User)).toEqual(
-          expect.arrayContaining(['id', 'username', 'profile_image_url'])
+        expect(Object.keys(socialMedia.User).sort()).toEqual(
+          ['id', 'username', 'profile_image_url'].sort()
         );
       }
     });
@@ -223,15 +223,15 @@ describe('PUT /socialmedias/:socialMediaId', () => {
       expect(typeof res.body).toBe('object');
       expect(res.body).toHaveProperty('social_media');
       const socialMedia = res.body.social_media;
-      expect(Object.keys(socialMedia)).toEqual(
-        expect.arrayContaining([
+      expect(Object.keys(socialMedia).sort()).toEqual(
+        [
           'id',
           'name',
           'social_media_url',
           'UserId',
           'updatedAt',
           'createdAt',
-        ])
+        ].sort()
       );
       expect(socialMedia.name).toBe(socialMediaData.name);
       expect(socialMedia.social_media_url).toBe(
@@ -273,7 +273,7 @@ describe('PUT /socialmedias/:socialMediaId', () => {
         .send({ name: socialMediaData.name, social_media_url: 'randomstring' });
       expect(res.statusCode).toBe(400);
     });
-    it("if request update to social media that doesn\'t exist", async () => {
+    it("if request update to social media that doesn't exist", async () => {
       const res = await request(app)
         .put('/socialmedias/' + (socialMediaId + 1))
         .set({ token })
@@ -337,7 +337,7 @@ describe('DELETE /socialmedias/:socialMediaId', () => {
       expect(typeof res.body).toBe('object');
       expect(res.body).toHaveProperty('message');
     });
-    it('if delete social media that doesn\'t exist', async () => {
+    it("if delete social media that doesn't exist", async () => {
       const res = await request(app)
         .delete('/socialmedias/' + (userId + 1))
         .set({ token });
