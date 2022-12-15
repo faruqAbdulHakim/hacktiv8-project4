@@ -30,10 +30,8 @@
     "logging": false
   },
   "production": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "MyGramProduction",
-    "host": "localhost",
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "protocol": "postgres"
   }
 }
